@@ -1,0 +1,37 @@
+#Se verifica si los argumentos son correctos
+if [ $# -ne 2 ]; then
+  echo "Uso: $0 <nombre_de_usuario> <nombre_de_grupo>"
+  exit 1
+fi
+#Se crea un usuario con el nombre de mascota y grupo lab1
+nuevo_usuario="Koko"
+nombre_grupo="lab1"
+
+# Se comprueba si el usuario ya existe
+if id "$nuevo_usuario" &>/dev/null; then
+  echo "El usuario '$nuevo_usuario' ya existe."
+else
+  # Se crea un nuevo usuario
+  sudo useradd -m "$nuevo_usuario"
+  echo "Usuario '$nuevo_usuario' creado."
+fi
+
+# Se comprueba si el grupo ya existe
+if getent group "$nombre_grupo" &>/dev/null; then
+  echo "El grupo '$nombre_grupo' ya existe."
+else
+  # Se crea un nuevo grupo
+  sudo groupadd "$nombre_grupo"
+  echo "Grupo '$nombre_grupo' creado."
+fi
+
+# Se agrega el usuario al grupo
+sudo usermod -aG "$nombre_grupo" "$nuevo_usuario"
+
+# Se corrige la asignación de permisos de ejecución al script tarea1.sh
+chmod o-x tarea1.sh
+chown :"$nombre_grupo" tarea1.sh
+chmod g+x tarea1.sh
+
+echo "Permisos de ejecución asignados al grupo '$nombre_grupo' para el script tarea1.sh."
+#no pude lograr el main objetivo de la parte 2, que si se introduce un nuevo usuario lo creara y el nuevo nombre se viera reflejado en el print :(
