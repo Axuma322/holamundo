@@ -25,7 +25,7 @@ intervalo=5
 #La duración de la monitorización en segundos
 duracion=60
 
-#Como iniciar la monitorización
+#Como iniciar la monitorización, a partir de aquí me guié con un par de videos que encontré en youtube xd :)
 tiempo_inicial=$(date +%s)
 tiempo_actual=0
 
@@ -44,7 +44,7 @@ while [ "$tiempo_actual" -lt "$duracion" ]; do
     sleep "$intervalo"
 done
 
-#Como generar gráfico utilizando Gnuplot
+#Como generar gráfico utilizando Gnuplot, muy fácil de usar esta herramienta con las instrucciones adecuadas
 gnuplot <<EOF
 set terminal png
 set output "consumo_cpu_memoria.png"
