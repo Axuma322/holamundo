@@ -2,13 +2,13 @@
 directorio_a_monitorear="/home/gabriel"
 
 # El archivo de registro
-archivo_log="/home/gabriel/registro.log"
+archivo_log="/home/gabriel/registros2.log"
 #Se usa el comando recomendando, para este comando se debe instalar un tool en la terminal para poder usarlo
 while true; do
     inotifywait -e create,modify,delete -r "$directorio_a_monitorear" >> "$archivo_log"
 done
 
-
+#aquí empezaría otro script en el directorio /stc/systemd/system, lo puse en el mismo github para evitar confuciones xd
 #Luego de esto, se creo un archivo de unidad de servicio systemd. Este archivo se utiliza para definir y configurar un servicio que se ejecutará en un sistema Linux controlado por systemd
 [Unit]
 Description=Servicio de Monitoreo de Cambios en Directorios
