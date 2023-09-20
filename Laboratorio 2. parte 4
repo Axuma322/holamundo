@@ -1,0 +1,22 @@
+#Se crea el Directorio a monitorear
+directorio_a_monitorear="/home/gabriel"
+
+# El archivo de registro
+archivo_log="/home/gabriel/registro.log"
+#Se usa el comando recomendando, para este comando se debe instalar un tool en la terminal para poder usarlo
+while true; do
+    inotifywait -e create,modify,delete -r "$directorio_a_monitorear" >> "$archivo_log"
+done
+
+
+#Luego de esto, se creo un archivo de unidad de servicio systemd. Este archivo se utiliza para definir y configurar un servicio que se ejecutará en un sistema Linux controlado por systemd
+[Unit]
+Description=Servicio de Monitoreo de Cambios en Directorios
+After=network.target #Esto indica que el servicio se iniciará después de que la red esté completamente disponible.
+
+[Service]
+ExecStart=/home/gabriel/directory_monitor.sh # Esta línea especifica el comando que se debe ejecutar cuando se inicia el servicio. En este caso, el comando es /home/gabriel/directory_monitor.sh
+Restart=always #Esta línea indica que el servicio se reiniciará automáticamente en caso de que se detenga por alguna razón.
+
+[Install]
+WantedBy=multi-user.target #Esta línea especifica en qué nivel de ejecución (runlevel) se debe habilitar el servicio. multi-user.target se refiere al nivel de ejecución multiusuario
