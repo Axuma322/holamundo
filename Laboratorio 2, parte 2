@@ -8,7 +8,7 @@ fi
 nombre_proceso="$1"
 comando="$2"
 
-#Se crea una función para verificar si el proceso está en ejecución
+#Se crea una función para verificar si el proceso está en ejecución, en esta parte me ayude viendo un foro o pagína para hacerlo
 proceso_en_ejecucion() {
     if pgrep -x "$nombre_proceso" > /dev/null; then
         return 0  # El proceso está en ejecución
