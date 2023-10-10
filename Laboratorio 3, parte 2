@@ -1,0 +1,66 @@
+// En este codigo se creo una funcion fuera de main que recibiera parametros de otra función, muy parecido a muchos ejercicios de python donde funciones dependen de parametros de otras funciones en archivos diferentes
+#include <stdio.h>
+
+// Prototipos de las funciones dados por el ejercicio.
+int encontrarMin(int arr[], int n);
+int encontrarMax(int arr[], int n);
+void encontrarMinMax(int *arreglo, int *minimo, int *maximo, int longitud);
+
+int main() {
+    int arr[] = {21, 24, 65, 3, 56, 12, 35, 15};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    
+    // Primero se usan las funciones separadas para encontrar el mínimo y máximo.
+    printf("El valor mínimo es: %d\n", encontrarMin(arr, n));
+    printf("El valor máximo es: %d\n", encontrarMax(arr, n));
+    
+    // Usando punteros para encontrar el mínimo y máximo.
+    int minimo, maximo;
+    encontrarMinMax(arr, &minimo, &maximo, n);
+    printf("Usando punteros, el valor mínimo es: %d y el valor máximo es: %d\n", minimo, maximo);
+    
+    return 0;
+}
+
+// La función que busca y retorna el valor mínimo en un arreglo.
+int encontrarMin(int arr[], int n) {
+    int min = arr[0];  // Inicializa el valor mínimo con el primer elemento del arreglo.
+    for(int i=1; i<n; i++) {
+        // Si el elemento actual del arreglo es menor que el valor mínimo actual,
+        // actualiza el valor mínimo.
+        if(arr[i] < min) {
+            min = arr[i];
+        }
+    }
+    return min;  // Se retorna el valor mínimo encontrado.
+}
+
+// La función que busca y retorna el valor máximo en un arreglo.
+int encontrarMax(int arr[], int n) {
+    int max = arr[0];  // Inicializa el valor máximo con el primer elemento del arreglo.
+    for(int i=1; i<n; i++) {
+        // Si el elemento actual del arreglo es mayor que el valor máximo actual,
+        // actualiza el valor máximo.
+        if(arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;  // Retorna el valor máximo encontrado.
+}
+
+// La función que utiliza punteros para encontrar tanto el valor mínimo como el máximo en un arreglo.
+void encontrarMinMax(int *arreglo, int *minimo, int *maximo, int longitud) {
+    *minimo = *arreglo;  // Inicializa el valor mínimo con el primer elemento del arreglo.
+    *maximo = *arreglo;  // Inicializa el valor máximo con el primer elemento del arreglo.
+    
+    for(int i=1; i<longitud; i++) {
+        // Si el elemento actual del arreglo es menor que el valor mínimo actual, actualiza el valor mínimo.
+        if(*(arreglo + i) < *minimo) {
+            *minimo = *(arreglo + i);
+        }
+        // Si el elemento actual del arreglo es mayor que el valor máximo actual, actualiza el valor máximo.
+        if(*(arreglo + i) > *maximo) {
+            *maximo = *(arreglo + i);
+        }
+    }
+}
