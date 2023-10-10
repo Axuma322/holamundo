@@ -1,0 +1,77 @@
+//Codigo para una busqueda lineal, una binaria y otra binaria recursiva
+//Me guié con cosas que encontre por internet para poder hacerlo, el que más me costo fue de lejos la binaria recursiva xd
+#include <stdio.h>
+
+// Se define la función de búsqueda lineal.
+int busqueda_lineal(int arr[], int n, int x) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == x) // Si el valor en la posición actual es el valor buscado.
+            return i; // Retorna la posición.
+    }
+    return -1; // Si no encuentra el valor, retorna -1.
+}
+
+// Se define la función de búsqueda binaria.
+int busqueda_binaria(int arr[], int l, int r, int x) {
+    while (l <= r) {
+        int m = l + (r - l) / 2; // Se calcula la posición media.
+        
+        if (arr[m] == x) // Si el valor en la posición media es el valor buscado.
+            return m; // Retorna la posición.
+        
+        if (arr[m] < x) // Si el valor buscado es mayor, ignora la mitad izquierda.
+            l = m + 1;
+        else // Si el valor buscado es menor, ignora la mitad derecha.
+            r = m - 1;
+    }
+    return -1; // Si no encuentra el valor, retorna -1.
+}
+
+// Se define la función de búsqueda binaria recursiva.
+int busqueda_binaria_recursiva(int arr[], int l, int r, int x) {
+    if (r >= l) {
+        int m = l + (r - l) / 2; // Calcula la posición media.
+        
+        if (arr[m] == x) // Si el valor en la posición media es el valor buscado.
+            return m; // Retorna la posición.
+        
+        if (arr[m] > x) // Si el valor buscado es menor, busca en la mitad izquierda.
+            return busqueda_binaria_recursiva(arr, l, m - 1, x);
+        
+        // Si el valor buscado es mayor, busca en la mitad derecha.
+        return busqueda_binaria_recursiva(arr, m + 1, r, x);
+    }
+    return -1; // Si no encuentra el valor, retorna -1.
+}
+
+int main() {
+    int arr[] = {2, 4, 6, 23, 56, 79};
+    int n = sizeof(arr) / sizeof(arr[0]); // Se calcula el tamaño del arreglo.
+    int x;
+
+    printf("Ingrese un valor entero: ");
+    scanf("%d", &x);
+
+    // La búsqueda lineal.
+    int resultado = busqueda_lineal(arr, n, x);
+    if (resultado != -1)
+        printf("El valor %d fue encontrado en la posición %d usando búsqueda lineal.\n", x, resultado);
+    else
+        printf("El valor %d no fue encontrado usando búsqueda lineal.\n", x);
+
+    // La búsqueda binaria.
+    resultado = busqueda_binaria(arr, 0, n - 1, x);
+    if (resultado != -1)
+        printf("El valor %d fue encontrado en la posición %d usando búsqueda binaria.\n", x, resultado);
+    else
+        printf("El valor %d no fue encontrado usando búsqueda binaria.\n", x);
+
+    // La búsqueda binaria recursiva.
+    resultado = busqueda_binaria_recursiva(arr, 0, n - 1, x);
+    if (resultado != -1)
+        printf("El valor %d fue encontrado en la posición %d usando búsqueda binaria recursiva.\n", x, resultado);
+    else
+        printf("El valor %d no fue encontrado usando búsqueda binaria recursiva.\n", x);
+
+    return 0;
+}
