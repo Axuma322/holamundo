@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// La estructura para un nodo de la lista enlazada, easy en internet xd
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+typedef struct Node Node;
+
+Node* head = NULL;
+
+// La función para agregar un nodo al final de la lista
+void addNode(int value) {
+    // Es para reserva memoria para un nuevo nodo
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = value; // Asigna el valor al nuevo nodo
+    newNode->next = NULL;  // El nuevo nodo apunta a NULL, ya que será el último en la lista
+
+    // Si la lista está vacía, el nuevo nodo se convierte en la cabeza de la lista
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        // Si no, recorre la lista hasta encontrar el último nodo y lo conecta al nuevo nodo
+        Node* current = head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+}
+
+// La función para eliminar un nodo por valor x
+void deleteNode(int value) {
+    Node* current = head;
+    Node* previous = NULL;
+
+    while (current != NULL) {
+        if (current->data == value) {
+            if (previous == NULL) {
+                head = current->next; // Elimina el nodo si es el primero
+            } else {
+                previous->next = current->next; // Conecta el nodo anterior con el siguiente
+            }
+            free(current); // Pa libera la memoria del nodo eliminado
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
+}
+
+// La función para agregar un nodo al inicio
+void addToFront(int value) {
+    // Pa reserva memoria para un nuevo nodo
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = value; // Asigna el valor al nuevo nodo
+    newNode->next = head; // El nuevo nodo apunta al nodo anterior de la cabeza
+    head = newNode; // El nuevo nodo se convierte en la cabeza de la lista
+}
+
+// La función para buscar un nodo por su valor
+int search(int value) {
+    Node* current = head;
+
+    while (current != NULL) {
+        if (current->data == value) {
+            return 1; // El valor existe en la lista
+        }
+        current = current->next;
+    }
+
+    return 0; // El valor no existe en la lista
+}
+
+// La función para imprimir la lista
+void printList() {
+    Node* current = head;
+
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// La función para obtener el elemento enésimo
+int getElementAt(int index) {
+    Node* current = head;
+    int currentIndex = 0;
+
+    while (current != NULL) {
+        if (currentIndex == index) {
+            return current->data;
+        }
+        currentIndex++;
+        current = current->next;
+    }
+
+    return -1; // El elemento no encontrado en la lista
+}
+
+// La función para liberar la memoria de la lista
+void freeList() {
+    Node* current = head;
+    while (current != NULL) {
+        Node* temp = current;
+        current = current->next;
+        free(temp); // PA Libera la memoria del nodo
+    }
+}
+//Función main donde se llama todas la funciones para hacer todos los procedimientos juntos
+int main() {
+    addNode(1);
+    addNode(2);
+    addNode(3);
+
+    printList();
+
+    deleteNode(2);
+    printList();
+
+    addToFront(0);
+    printList();
+
+    if (search(3)) {
+        printf("Value 3 exists in the list.\n");
+    } else {
+        printf("Value 3 does not exist in the list.\n");
+    }
+
+    int element = getElementAt(2);
+    if (element != -1) {
+        printf("Element at index 2: %d\n", element);
+    } else {
+        printf("Element at index 2 not found.\n");
+    }
+
+    // No puede faltar xd, liberar la memoria de la lista
+    freeList();
+
+    return 0;
+}
